@@ -1,0 +1,21 @@
+name: OIDC test
+on:
+  push:
+    branches:
+      - main
+jobs:
+  AWS-auth_test:
+    name: "aws auth test"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      
+    steps:
+    - name: configure aws creds
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::347902383148:role/oidc-demo-role
+        aws-region: us-east-1
+    - name: test aws auth
+      run: |
+        aws s3 ls
